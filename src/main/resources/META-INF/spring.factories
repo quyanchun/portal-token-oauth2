@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.mingxing.config.PortalTokenOauth2Config,\
+com.mingxing.utils.Oauth2TokenUtil,\
+com.mingxing.utils.ClientTokenUtil
