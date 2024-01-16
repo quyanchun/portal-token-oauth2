@@ -4,9 +4,9 @@ import com.mingxing.config.PortalTokenOauth2Config;
 import com.mingxing.domain.TResult;
 import com.mingxing.domain.oauth2.AccessTokenModel;
 import com.mingxing.domain.oauth2.PortalUser;
-import com.mingxing.service.RestHandle;
+import com.mingxing.service.RestService;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,25 +17,17 @@ import java.util.Map;
  * @date 2024/1/8
  * @description
  */
+@Component
 public class Oauth2TokenUtil {
-    private static PortalTokenOauth2Config portalTokenOauth2Config;
-    private static RestHandle restHandle;
+    private static RestService restService= new RestService();
 
-
-    @Resource
-    public void setPortalTokenOauth2Config(PortalTokenOauth2Config portalTokenOauth2Config) {
-        Oauth2TokenUtil.portalTokenOauth2Config = portalTokenOauth2Config;
-        restHandle = new RestHandle();
-    }
-
-
-    public static AccessTokenModel tokenByToken(String code) {
+    public static AccessTokenModel tokenByCode(String code) {
         Map<String, Object> map = new HashMap<>();
         map.put("grant_type", "authorization_code");
         map.put("code", code);
-        return restHandle.token(portalTokenOauth2Config.getServerHost(),
-                portalTokenOauth2Config.getClientId(),
-                portalTokenOauth2Config.getClientSecret(),
+        return restService.token(PortalTokenOauth2Config.getServerHost(),
+                PortalTokenOauth2Config.getClientId(),
+                PortalTokenOauth2Config.getClientSecret(),
                 map).checkAndGetData(AccessTokenModel.class);
     }
     public static AccessTokenModel tokenByPassword(String username,String password) {
@@ -43,26 +35,26 @@ public class Oauth2TokenUtil {
         map.put("grant_type", "password");
         map.put("username", username);
         map.put("password", password);
-        return restHandle.token(portalTokenOauth2Config.getServerHost(),
-                portalTokenOauth2Config.getClientId(),
-                portalTokenOauth2Config.getClientSecret(),
+        return restService.token(PortalTokenOauth2Config.getServerHost(),
+                PortalTokenOauth2Config.getClientId(),
+                PortalTokenOauth2Config.getClientSecret(),
                 map).checkAndGetData(AccessTokenModel.class);
     }
     public static TResult logout(String accessToken) {
-        return restHandle.logout(portalTokenOauth2Config.getServerHost(),
-                portalTokenOauth2Config.getClientId(),
-                portalTokenOauth2Config.getClientSecret(),
+        return restService.logout(PortalTokenOauth2Config.getServerHost(),
+                PortalTokenOauth2Config.getClientId(),
+                PortalTokenOauth2Config.getClientSecret(),
                 accessToken);
     }
 
     public static AccessTokenModel refresh(String refreshToken) {
-        return restHandle.refresh(portalTokenOauth2Config.getServerHost(),
-                portalTokenOauth2Config.getClientId(),
-                portalTokenOauth2Config.getClientSecret()
+        return restService.refresh(PortalTokenOauth2Config.getServerHost(),
+                PortalTokenOauth2Config.getClientId(),
+                PortalTokenOauth2Config.getClientSecret()
                 , refreshToken).checkAndGetData(AccessTokenModel.class);
     }
 
     public static PortalUser userinfo(String accessToken) {
-        return restHandle.userinfo(portalTokenOauth2Config.getServerHost(), accessToken).checkAndGetData(PortalUser.class);
+        return restService.userinfo(PortalTokenOauth2Config.getServerHost(), accessToken).checkAndGetData(PortalUser.class);
     }
 }

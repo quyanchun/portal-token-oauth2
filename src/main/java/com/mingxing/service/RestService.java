@@ -13,7 +13,7 @@ import java.util.Map;
  * @date 2024/1/8
  * @description
  */
-public class RestHandle {
+public class RestService {
 
     private static final String tokenUrl = "{url}/api/oauth2/token";
 

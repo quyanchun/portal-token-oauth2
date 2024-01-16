@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "portal-token.oauth2", ignoreUnknownFields = true)
 public class PortalTokenOauth2Config {
-    private String serverHost;
-    private String clientId;
-    private String clientSecret;
+    private static String serverHost;
+    private static String clientId;
+    private static String clientSecret;
 
-    public String getServerHost() {
+    public static String getServerHost() {
         return serverHost;
     }
 
@@ -23,7 +23,7 @@ public class PortalTokenOauth2Config {
         this.serverHost = serverHost;
     }
 
-    public String getClientId() {
+    public static String getClientId() {
         return clientId;
     }
 
@@ -31,7 +31,7 @@ public class PortalTokenOauth2Config {
         this.clientId = clientId;
     }
 
-    public String getClientSecret() {
+    public static String getClientSecret() {
         return clientSecret;
     }
 

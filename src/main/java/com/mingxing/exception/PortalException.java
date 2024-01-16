@@ -37,6 +37,7 @@ public class PortalException extends RuntimeException
 
     public PortalException(String message)
     {
+        this.code = 500;
         this.message = message;
     }
 
